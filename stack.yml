@@ -13,7 +13,7 @@ services:
       target: app
     environment:
       APP_POSTGRES_HOST: db
-      APP_POSTGRES_PASSWORD: test12321
+      APP_POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
     - "8080:8080"
     healthcheck:
@@ -35,7 +35,7 @@ services:
     restart: on-failure:3
     user: postgres
     environment:
-      POSTGRES_PASSWORD: test12321
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     configs:
     - source: postgres-schema
       target: /docker-entrypoint-initdb.d/schema.sql
@@ -57,7 +57,7 @@ services:
     restart: on-failure:3
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: test12321
+      PGADMIN_DEFAULT_PASSWORD: ${DB_PASSWORD}
     volumes:
     - pgadmin_data:/var/lib/pgadmin
     healthcheck:
