@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/romuloslv/go-rest-api/local/database"
+	"github.com/romuloslv/go-rest-api/internal/database"
 )
 
 type Service struct {
