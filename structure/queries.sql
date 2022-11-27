@@ -25,7 +25,7 @@ SET person_id   = CASE WHEN @update_person_id::boolean THEN @person_id::VARCHAR(
     first_name  = CASE WHEN @update_first_name::boolean THEN @first_name::VARCHAR(30) ELSE first_name END,
     last_name   = CASE WHEN @update_last_name::boolean THEN @last_name::VARCHAR(20) ELSE last_name END,
     web_address = CASE WHEN @update_web_address::boolean THEN @web_address::VARCHAR(50) ELSE web_address END,
-    date_birth  = CASE WHEN @update_date_birth::boolean THEN @date_birth::DATE ELSE date_birth END
+    date_birth  = CASE WHEN @update_date_birth::boolean THEN @date_birth::VARCHAR(10) ELSE date_birth END
 WHERE id = @id
 RETURNING *;
 
@@ -37,4 +37,4 @@ WHERE id = $1;
 -- name: ListAccounts :many
 SELECT *
 FROM accounts
-ORDER BY name;
+ORDER BY first_name;

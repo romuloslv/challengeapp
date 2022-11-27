@@ -7,6 +7,7 @@ package database
 
 import (
 	"context"
+	"database/sql"
 )
 
 const createAccount = `-- name: CreateAccount :one
@@ -19,8 +20,8 @@ type CreateAccountParams struct {
 	PersonID   string
 	FirstName  string
 	LastName   string
-	WebAddress string
-	DateBirth  string
+	WebAddress sql.NullString
+	DateBirth  sql.NullString
 }
 
 func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (Account, error) {
@@ -178,8 +179,8 @@ type UpdateAccountParams struct {
 	PersonID   string
 	FirstName  string
 	LastName   string
-	WebAddress string
-	DateBirth  string
+	WebAddress sql.NullString
+	DateBirth  sql.NullString
 }
 
 func (q *Queries) UpdateAccount(ctx context.Context, arg UpdateAccountParams) (Account, error) {

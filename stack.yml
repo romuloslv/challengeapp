@@ -1,0 +1,86 @@
+version: "3.9"
+
+services:
+  api:
+    image: api:1.0
+    hostname: api
+    container_name: api
+    domainname: docker.local
+    restart: on-failure:3
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+    environment:
+      APP_POSTGRES_HOST: db
+      APP_POSTGRES_PASSWORD: test12321
+    ports:
+    - "8080:8080"
+    healthcheck:
+      test: ["CMD", "nc", "-zv", "api:8080"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+    - lab
+
+  db:
+    image: postgres:15.1-alpine3.16
+    hostname: db
+    container_name: db
+    domainname: docker.local
+    restart: on-failure:3
+    user: postgres
+    environment:
+      POSTGRES_PASSWORD: test12321
+    configs:
+    - source: postgres-schema
+      target: /docker-entrypoint-initdb.d/schema.sql
+    volumes:
+    - postgres-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+    - lab
+
+  pgadmin:
+    image: dpage/pgadmin4
+    hostname: pgadmin
+    container_name: pgadmin
+    domainname: docker.local
+    restart: on-failure:3
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: test12321
+    volumes:
+    - pgadmin_data:/var/lib/pgadmin
+    healthcheck:
+      test: ["CMD", "wget", "-O", "-", "pgadmin:80/misc/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+    - "80:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+    - lab
+
+configs:
+  postgres-schema:
+    file: structure/schema.sql
+
+volumes:
+  postgres-data: {}
+  pgadmin_data: {}
+
+networks:
+  lab:
+    driver: bridge

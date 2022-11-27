@@ -29,19 +29,19 @@ func (s *Service) RegisterHandlers(router *gin.Engine) {
 
 type apiAccount struct {
 	ID         int64
-	PersonID   string         `json:"person_id,omitempty" binding:"omitempty,max=11"`
-	FirstName  string         `json:"first_name,omitempty" binding:"required,max=30"`
-	LastName   string         `json:"last_name,omitempty" binding:"required,max=20"`
-	WebAddress sql.NullString `json:"web_address,omitempty" binding:"required,email"`
-	DateBirth  sql.NullTime   `json:"date_birth,omitempty" binding:"required,datetime"`
+	PersonID   string `json:"person_id,omitempty" binding:"omitempty,max=11"`
+	FirstName  string `json:"first_name,omitempty" binding:"required,max=30"`
+	LastName   string `json:"last_name,omitempty" binding:"required,max=20"`
+	WebAddress string `json:"web_address,omitempty" binding:"required"`
+	DateBirth  string `json:"date_birth,omitempty" binding:"required"`
 }
 
 type apiAccountPartialUpdate struct {
-	PersonID   *string         `json:"person_id,omitempty" binding:"omitempty,max=11"`
-	FirstName  *string         `json:"first_name,omitempty" binding:"omitempty,max=30"`
-	LastName   *string         `json:"last_name,omitempty" binding:"omitempty,max=20"`
-	WebAddress *sql.NullString `json:"web_address,omitempty" binding:"omitempty,email"`
-	DateBirth  *sql.NullTime   `json:"date_birth,omitempty" binding:"omitempty,datetime"`
+	PersonID   *string `json:"person_id,omitempty" binding:"omitempty,max=11"`
+	FirstName  *string `json:"first_name,omitempty" binding:"omitempty,max=30"`
+	LastName   *string `json:"last_name,omitempty" binding:"omitempty,max=20"`
+	WebAddress *string `json:"web_address,omitempty" binding:"omitempty"`
+	DateBirth  *string `json:"date_birth,omitempty" binding:"omitempty"`
 }
 
 func fromDB(account database.Account) *apiAccount {
@@ -182,11 +182,11 @@ func (s *Service) PartialUpdate(c *gin.Context) {
 	}
 	if request.WebAddress != nil {
 		params.UpdateWebAddress = true
-		params.WebAddress = (*request.WebAddress).String
+		params.WebAddress = *request.WebAddress
 	}
 	if request.DateBirth != nil {
 		params.UpdateDateBirth = true
-		params.DateBirth = (*request.DateBirth).Time
+		params.DateBirth = *request.DateBirth
 	}
 
 	account, err := s.queries.PartialUpdateAccount(context.Background(), params)

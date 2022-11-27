@@ -4,13 +4,15 @@
 
 package database
 
-import ()
+import (
+	"database/sql"
+)
 
 type Account struct {
 	ID         int64
 	PersonID   string
 	FirstName  string
 	LastName   string
-	WebAddress string
-	DateBirth  string
+	WebAddress sql.NullString
+	DateBirth  sql.NullString
 }
