@@ -3,7 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/romuloslv/go-rest-api/cmd/core/config"
+	"github.com/gin-gonic/gin"
+	"github.com/romuloslv/go-rest-api/cmd/app/config"
 	"github.com/romuloslv/go-rest-api/local/database"
 )
 
@@ -19,4 +20,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
+	// Register our service handlers to the router
+	router := gin.Default()
+	accountService.RegisterHandlers(router)
+
+	// Start the server
+	router.Run()
 }
