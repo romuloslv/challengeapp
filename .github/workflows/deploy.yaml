@@ -21,11 +21,11 @@ jobs:
                   "port": "8080"
               }
           }' > config.json
-          sed -i -e 's/HEROKU_DB_USER/'$HEROKU_DB_USER'/g' \
-                 -e 's/HEROKU_DB_PASS/'$HEROKU_DB_PASS'/g' \
-                 -e 's/HEROKU_DB_HOST/'$HEROKU_DB_HOST'/g' \
-                 -e 's/HEROKU_DB_PORT/'$HEROKU_DB_PORT'/g' \
-                 -e 's/HEROKU_DB_NAME/'$HEROKU_DB_NAME'/g' config.json
+          sed -i -e 's/HEROKU_DB_USER/'${{ secrets.HEROKU_DB_USER }}'/g' \
+                 -e 's/HEROKU_DB_PASS/'${{ secrets.HEROKU_DB_PASS }}'/g' \
+                 -e 's/HEROKU_DB_HOST/'${{ secrets.HEROKU_DB_HOST }}'/g' \
+                 -e 's/HEROKU_DB_PORT/'${{ secrets.HEROKU_DB_PORT }}'/g' \
+                 -e 's/HEROKU_DB_NAME/'${{ secrets.HEROKU_DB_NAME }}'/g' config.json
           cat config.json
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
