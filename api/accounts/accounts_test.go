@@ -43,10 +43,6 @@ func (suite *ServiceTestSuite) SetupSuite() {
 	service.RegisterHandlers(suite.router)
 }
 
-//func (suite *ServiceTestSuite) SetupTest() {
-//	suite.queries.TruncateAccount(context.Background())
-//}
-
 func (suite *ServiceTestSuite) TestCreate() {
 	request := apiAccount{
 		PersonID:   "11111111111",
