@@ -1,4 +1,4 @@
-module github.com/romuloslv/go-rest-api
+module github.com/romuloslv/challengeapp
 
 go 1.18
 

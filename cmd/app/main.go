@@ -4,10 +4,10 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/romuloslv/go-rest-api/api/accounts"
-	"github.com/romuloslv/go-rest-api/cmd/app/config"
-	_ "github.com/romuloslv/go-rest-api/docs"
-	"github.com/romuloslv/go-rest-api/internal/database"
+	"github.com/romuloslv/challengeapp/api/accounts"
+	"github.com/romuloslv/challengeapp/cmd/app/config"
+	_ "github.com/romuloslv/challengeapp/docs"
+	"github.com/romuloslv/challengeapp/internal/database"
 )
 
 // @Title Go REST API
