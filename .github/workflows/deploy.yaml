@@ -18,7 +18,7 @@ jobs:
                   "url": "://HEROKU_DB_USER:HEROKU_DB_PASS@HEROKU_DB_HOST:HEROKU_DB_PORT/HEROKU_DB_NAME"
               },
               "server": {
-                  "port": "8080"
+                  "port": ""
               }
           }' > config.json
           sed -i -e 's/HEROKU_DB_USER/'${{ secrets.HEROKU_DB_USER }}'/g' \
@@ -30,6 +30,7 @@ jobs:
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
+          usedocker: true
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_MAIL_USER }}
