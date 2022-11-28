@@ -7,14 +7,14 @@ build:
 # Stack
 .PHONY:	stop
 stop:
-	@docker compose -f stack.yml down -v
+	@docker compose -f stack.yaml down -v
 
 .PHONY:	prod
 prod:
-	@docker compose -f stack.yml down -v
-	@docker compose -f stack.yml up --build
+	@docker compose -f stack.yaml down -v
+	@docker compose -f stack.yaml up --build
 
 .PHONY: dev
 dev:
-	@docker compose -f stack.yml down -v
-	@docker compose -f stack.yml -f stack.dev.yml up
+	@docker compose -f stack.yaml down -v
+	@docker compose -f stack.yaml -f stack.dev.yaml up

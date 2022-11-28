@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-//go:embed config.yml
+//go:embed config.yaml
 var defaultConfiguration []byte
 
 type Postgres struct {
