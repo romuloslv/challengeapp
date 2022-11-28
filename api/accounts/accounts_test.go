@@ -72,7 +72,7 @@ func (suite *ServiceTestSuite) TestCreate() {
 
 func (suite *ServiceTestSuite) TestCreateBadRequest() {
 	request := apiAccount{
-		PersonID:   "222222222222222",
+		PersonID:   "111111111111",
 		FirstName:  "John",
 		LastName:   "Doe",
 		WebAddress: "john.doe@test.local",
@@ -95,7 +95,7 @@ func (suite *ServiceTestSuite) TestCreateBadRequest() {
 
 func (suite *ServiceTestSuite) TestGet() {
 	account, err := suite.queries.CreateAccount(context.Background(), database.CreateAccountParams{
-		PersonID:   "11111111111",
+		PersonID:   "55555555555",
 		FirstName:  "John",
 		LastName:   "Doe",
 		WebAddress: "john.doe@test.local",
@@ -142,7 +142,7 @@ func (suite *ServiceTestSuite) TestGetBadRequest() {
 
 func (suite *ServiceTestSuite) TestFullUpdateBadRequest() {
 	account, err := suite.queries.CreateAccount(context.Background(), database.CreateAccountParams{
-		PersonID:   "11111111111",
+		PersonID:   "44444444444",
 		FirstName:  "John",
 		LastName:   "Doe",
 		WebAddress: "john.doe@test.local",
@@ -151,7 +151,7 @@ func (suite *ServiceTestSuite) TestFullUpdateBadRequest() {
 	suite.Require().NoError(err)
 
 	request := apiAccount{
-		PersonID:   "22222222222",
+		PersonID:   "444444444444",
 		FirstName:  "John",
 		LastName:   "Doe",
 		WebAddress: "john.doe@test.local",
@@ -171,7 +171,7 @@ func (suite *ServiceTestSuite) TestFullUpdateBadRequest() {
 
 func (suite *ServiceTestSuite) TestFullUpdate() {
 	account, err := suite.queries.CreateAccount(context.Background(), database.CreateAccountParams{
-		PersonID:   "11111111111",
+		PersonID:   "33333333333",
 		FirstName:  "John",
 		LastName:   "Doe",
 		WebAddress: "john.doe@test.local",
@@ -209,7 +209,7 @@ func (suite *ServiceTestSuite) TestFullUpdate() {
 
 func (suite *ServiceTestSuite) TestPartialUpdateBadRequest() {
 	account, err := suite.queries.CreateAccount(context.Background(), database.CreateAccountParams{
-		PersonID:   "11111111111",
+		PersonID:   "7777777777",
 		FirstName:  "John",
 		LastName:   "Doe",
 		WebAddress: "john.doe@test.local",
@@ -218,7 +218,7 @@ func (suite *ServiceTestSuite) TestPartialUpdateBadRequest() {
 	suite.Require().NoError(err)
 
 	request := apiAccount{
-		PersonID: "11111111111",
+		PersonID: "888888888888",
 	}
 	var buffer bytes.Buffer
 	suite.Require().NoError(json.NewEncoder(&buffer).Encode(request))
@@ -234,7 +234,7 @@ func (suite *ServiceTestSuite) TestPartialUpdateBadRequest() {
 
 func (suite *ServiceTestSuite) TestPartialUpdate() {
 	account, err := suite.queries.CreateAccount(context.Background(), database.CreateAccountParams{
-		PersonID:   "11111111111",
+		PersonID:   "66666666666",
 		FirstName:  "John",
 		LastName:   "Doe",
 		WebAddress: "john.doe@test.local",
@@ -267,7 +267,7 @@ func (suite *ServiceTestSuite) TestPartialUpdate() {
 
 func (suite *ServiceTestSuite) TestDelete() {
 	account, err := suite.queries.CreateAccount(context.Background(), database.CreateAccountParams{
-		PersonID:   "11111111111",
+		PersonID:   "22222222222",
 		FirstName:  "John",
 		LastName:   "Doe",
 		WebAddress: "john.doe@test.local",
@@ -287,7 +287,7 @@ func (suite *ServiceTestSuite) TestDelete() {
 }
 
 func (suite *ServiceTestSuite) TestList() {
-	req, err := http.NewRequest("GET", "/accounts", nil)
+	req, err := http.NewRequest("GET", "/accounts/1", nil)
 	suite.Require().NoError(err)
 
 	rec := httptest.NewRecorder()
