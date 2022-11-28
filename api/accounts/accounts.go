@@ -8,6 +8,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/romuloslv/go-rest-api/internal/database"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Service struct {
@@ -19,6 +21,8 @@ func NewService(queries *database.Queries) *Service {
 }
 
 func (s *Service) RegisterHandlers(router *gin.Engine) {
+	url := ginSwagger.URL("/swagger/doc.json")
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	router.POST("/accounts", s.Create)
 	router.GET("/accounts/:id", s.Get)
 	router.PUT("/accounts/:id", s.FullUpdate)
@@ -59,6 +63,16 @@ type pathParameters struct {
 	ID int64 `uri:"id" binding:"required"`
 }
 
+// @Summary Create account
+// @Description Create account
+// @Tags accounts
+// @Accept json
+// @Produce json
+// @Param account body apiAccount true "Account"
+// @Success 201 {object} apiAccount
+// @Failure 400 {object} string
+// @Failure 503 {object} string
+// @Router /accounts [post]
 func (s *Service) Create(c *gin.Context) {
 	// Parse request
 	var request apiAccount
@@ -67,7 +81,6 @@ func (s *Service) Create(c *gin.Context) {
 		return
 	}
 
-	// Create account
 	params := database.CreateAccountParams{
 		PersonID:   request.PersonID,
 		FirstName:  request.FirstName,
@@ -87,6 +100,17 @@ func (s *Service) Create(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, response)
 }
 
+// @Summary Get account
+// @Description Get account
+// @Tags accounts
+// @Accept json
+// @Produce json
+// @Param id path int true "Account ID"
+// @Success 200 {object} apiAccount
+// @Failure 400 {object} string
+// @Failure 404 {object} string
+// @Failure 503 {object} string
+// @Router /accounts/{id} [get]
 func (s *Service) Get(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
@@ -112,6 +136,18 @@ func (s *Service) Get(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, response)
 }
 
+// @Summary Full update account
+// @Description Full update account
+// @Tags accounts
+// @Accept json
+// @Produce json
+// @Param id path int true "Account ID"
+// @Param account body apiAccount true "Account"
+// @Success 200 {object} apiAccount
+// @Failure 400 {object} string
+// @Failure 404 {object} string
+// @Failure 503 {object} string
+// @Router /accounts/{id} [put]
 func (s *Service) FullUpdate(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
@@ -152,6 +188,18 @@ func (s *Service) FullUpdate(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, response)
 }
 
+// @Summary Partial update account
+// @Description Partial update account
+// @Tags accounts
+// @Accept json
+// @Produce json
+// @Param id path int true "Account ID"
+// @Param account body apiAccountPartialUpdate true "Account"
+// @Success 200 {object} apiAccount
+// @Failure 400 {object} string
+// @Failure 404 {object} string
+// @Failure 503 {object} string
+// @Router /accounts/{id} [patch]
 func (s *Service) PartialUpdate(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
@@ -205,6 +253,17 @@ func (s *Service) PartialUpdate(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, response)
 }
 
+// @Summary Delete account
+// @Description Delete account
+// @Tags accounts
+// @Accept json
+// @Produce json
+// @Param id path int true "Account ID"
+// @Success 204
+// @Failure 400 {object} string
+// @Failure 404 {object} string
+// @Failure 503 {object} string
+// @Router /accounts/{id} [delete]
 func (s *Service) Delete(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
@@ -228,6 +287,22 @@ func (s *Service) Delete(c *gin.Context) {
 	c.Status(http.StatusOK)
 }
 
+// @Summary List accounts
+// @Description List accounts
+// @Tags accounts
+// @Accept json
+// @Produce json
+// @Param person_id query int false "Person ID"
+// @Param first_name query string false "First name"
+// @Param last_name query string false "Last name"
+// @Param web_address query string false "Web address"
+// @Param date_birth query string false "Date birth"
+// @Param limit query int false "Limit"
+// @Param offset query int false "Offset"
+// @Success 200 {array} apiAccount
+// @Failure 400 {object} string
+// @Failure 503 {object} string
+// @Router /accounts [get]
 func (s *Service) List(c *gin.Context) {
 	// List accounts
 	accounts, err := s.queries.ListAccounts(context.Background())

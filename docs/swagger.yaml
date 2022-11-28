@@ -1,0 +1,280 @@
+basePath: /
+definitions:
+  accounts.apiAccount:
+    properties:
+      date_birth:
+        type: string
+      first_name:
+        maxLength: 30
+        type: string
+      id:
+        type: integer
+      last_name:
+        maxLength: 20
+        type: string
+      person_id:
+        maxLength: 11
+        type: string
+      web_address:
+        type: string
+    required:
+    - date_birth
+    - first_name
+    - last_name
+    - web_address
+    type: object
+  accounts.apiAccountPartialUpdate:
+    properties:
+      date_birth:
+        type: string
+      first_name:
+        maxLength: 30
+        type: string
+      last_name:
+        maxLength: 20
+        type: string
+      person_id:
+        maxLength: 11
+        type: string
+      web_address:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server for a Go REST API.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Go REST API
+  version: 1.0.0
+paths:
+  /accounts:
+    get:
+      consumes:
+      - application/json
+      description: List accounts
+      parameters:
+      - description: Person ID
+        in: query
+        name: person_id
+        type: integer
+      - description: First name
+        in: query
+        name: first_name
+        type: string
+      - description: Last name
+        in: query
+        name: last_name
+        type: string
+      - description: Web address
+        in: query
+        name: web_address
+        type: string
+      - description: Date birth
+        in: query
+        name: date_birth
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/accounts.apiAccount'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "503":
+          description: Service Unavailable
+          schema:
+            type: string
+      summary: List accounts
+      tags:
+      - accounts
+    post:
+      consumes:
+      - application/json
+      description: Create account
+      parameters:
+      - description: Account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/accounts.apiAccount'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/accounts.apiAccount'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "503":
+          description: Service Unavailable
+          schema:
+            type: string
+      summary: Create account
+      tags:
+      - accounts
+  /accounts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete account
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "503":
+          description: Service Unavailable
+          schema:
+            type: string
+      summary: Delete account
+      tags:
+      - accounts
+    get:
+      consumes:
+      - application/json
+      description: Get account
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/accounts.apiAccount'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "503":
+          description: Service Unavailable
+          schema:
+            type: string
+      summary: Get account
+      tags:
+      - accounts
+    patch:
+      consumes:
+      - application/json
+      description: Partial update account
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/accounts.apiAccountPartialUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/accounts.apiAccount'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "503":
+          description: Service Unavailable
+          schema:
+            type: string
+      summary: Partial update account
+      tags:
+      - accounts
+    put:
+      consumes:
+      - application/json
+      description: Full update account
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/accounts.apiAccount'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/accounts.apiAccount'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "503":
+          description: Service Unavailable
+          schema:
+            type: string
+      summary: Full update account
+      tags:
+      - accounts
+schemes:
+- http
+swagger: "2.0"

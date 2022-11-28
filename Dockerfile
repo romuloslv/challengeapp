@@ -16,6 +16,7 @@ RUN go mod download
 # Copy source code
 COPY api ./api
 COPY cmd ./cmd
+COPY docs ./docs
 COPY internal ./internal
 
 RUN go build -o server ./cmd/app/main.go

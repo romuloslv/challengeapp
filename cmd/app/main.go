@@ -6,9 +6,25 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/romuloslv/go-rest-api/api/accounts"
 	"github.com/romuloslv/go-rest-api/cmd/app/config"
+	_ "github.com/romuloslv/go-rest-api/docs"
 	"github.com/romuloslv/go-rest-api/internal/database"
 )
 
+// @Title Go REST API
+// @Version 1.0.0
+// @Description This is a sample server for a Go REST API.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8080
+// @BasePath /
+// @schemes http
 func main() {
 	// Read configuration
 	cfg, err := config.Read()
@@ -31,5 +47,7 @@ func main() {
 	accountService.RegisterHandlers(router)
 
 	// Start the server
-	router.Run()
+	if err := router.Run(); err != nil {
+		log.Fatal(err)
+	}
 }
