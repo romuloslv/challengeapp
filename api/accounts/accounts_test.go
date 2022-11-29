@@ -10,8 +10,8 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/romuloslv/go-rest-api/cmd/app/config"
-	"github.com/romuloslv/go-rest-api/internal/database"
+	"github.com/romuloslv/challengeapp/cmd/app/config"
+	"github.com/romuloslv/challengeapp/internal/database"
 	"github.com/stretchr/testify/suite"
 )
 

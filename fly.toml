@@ -1,11 +1,13 @@
-# fly.toml file generated for challengeapp on 2022-11-28T18:52:57-03:00
+# fly.toml file generated for appcloud on 2022-11-28T23:33:40-03:00
 
-app = "challengeapp"
+app = "appcloud"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
 [env]
+  APP_POSTGRES_HOST = "dbcloud.internal"
+  APP_POSTGRES_PASSWORD = "zC3VLTOTIVoRVsX"
 
 [experimental]
   allowed_public_ports = []
