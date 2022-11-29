@@ -15,13 +15,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: run db
-      run: docker run -d --name db romuloslv/customdb:1.0
+      run: docker-compose -f stack.yaml -f stack.dev.yaml up -d
     - name: Test
       run: |
-            export APP_POSTGRES_HOST=${{ secrets.APP_POSTGRES_HOST }} APP_POSTGRES_PASSWORD=${{ secrets.APP_POSTGRES_PASSWORD }} \
-            && go mod tidy \
-            && cd api/accounts \
-            && go test -v -coverprofile=coverage.txt -covermode=atomic
+            export APP_POSTGRES_PASSWORD=${{ secrets.APP_POSTGRES_PASSWORD }} \
+            && echo "list envs\n\n$(env)" && cd api/accounts && go test -v -coverprofile=coverage.txt -covermode=atomic
     - name: Upload coverage report
       uses: codecov/codecov-action@v1.0.2
       with:
