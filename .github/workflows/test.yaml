@@ -15,7 +15,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Run db background
-      run: docker-compose -f stack.yaml -f stack.dev.yaml up -d
+      run: docker ps && docker-compose -f stack.yaml -f stack.dev.yaml up -d
+    - name: Check db
+      run: docker exec -it db psql -U postgres -c "\dt+"
     - name: Exec tests
       run: |
             export APP_POSTGRES_PASSWORD=${{ secrets.APP_POSTGRES_PASSWORD }} \
