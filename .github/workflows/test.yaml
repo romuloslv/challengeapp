@@ -23,7 +23,7 @@ jobs:
     - name: run db
       run: docker run -d --name db romuloslv/customdb:1.0
     - name: get info
-      run: sleep 60 && docker ps
+      run: sleep 60 && docker ps && env
     - name: Test
       run: go mod tidy && cd api/accounts && go test -v -coverprofile=coverage.txt -covermode=atomic
     - name: Upload coverage report
