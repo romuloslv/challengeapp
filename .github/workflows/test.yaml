@@ -28,6 +28,6 @@ jobs:
       uses: codecov/codecov-action@v1.0.2
       with:
         token: ${{ secrets.CODECOV_API_KEY }}
-        file: ./coverage.txt
+        file: ./api/accounts/coverage.txt
         flags: unittests
         name: codecov-umbrella
