@@ -1,7 +1,7 @@
 [![Deploy to fly.io app](https://github.com/romuloslv/challengeapp/actions/workflows/fly.yaml/badge.svg?branch=main)](https://github.com/romuloslv/challengeapp/actions/workflows/fly.yaml) [![Run test suite](https://github.com/romuloslv/challengeapp/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/romuloslv/challengeapp/actions/workflows/test.yaml) 
 [![codecov](https://codecov.io/gh/romuloslv/challengeapp/branch/main/graph/badge.svg?token=Z3MRFPEI6Q)](https://codecov.io/gh/romuloslv/challengeapp)
 
-# go-rest-api 
+# Simple API in GO to manage information
 
 ### Reference
 
