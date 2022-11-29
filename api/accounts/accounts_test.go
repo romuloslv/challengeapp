@@ -287,7 +287,7 @@ func (suite *ServiceTestSuite) TestDelete() {
 }
 
 func (suite *ServiceTestSuite) TestList() {
-	req, err := http.NewRequest("GET", "/accounts/1", nil)
+	req, err := http.NewRequest("GET", "/accounts", nil)
 	suite.Require().NoError(err)
 
 	rec := httptest.NewRecorder()
