@@ -14,12 +14,12 @@ jobs:
         go-version: ${{ matrix.go-version }}
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: run db
+    - name: Run db background
       run: docker-compose -f stack.yaml -f stack.dev.yaml up -d
-    - name: Test
+    - name: Exec tests
       run: |
             export APP_POSTGRES_PASSWORD=${{ secrets.APP_POSTGRES_PASSWORD }} \
-            && echo "list envs\n\n$(env)" && cd api/accounts && go test -v -coverprofile=coverage.txt -covermode=atomic
+            && cd api/accounts && go test -v -coverprofile=coverage.txt -covermode=atomic
     - name: Upload coverage report
       uses: codecov/codecov-action@v1.0.2
       with:
