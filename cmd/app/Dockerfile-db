@@ -1,3 +1,0 @@
-FROM --platform=linux/x86_64 postgres:15.1-alpine3.16
-ENV POSTGRES_PASSWORD=test12321
-COPY ../../structure/schema.sql /docker-entrypoint-initdb.d/
