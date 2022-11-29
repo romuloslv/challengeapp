@@ -17,7 +17,7 @@ jobs:
     - name: Run db background
       run: docker ps && docker-compose -f stack.yaml -f stack.dev.yaml up -d
     - name: Check db
-      run: docker exec db psql -U postgres -c "\dt+"
+      run: docker exec db psql -h localhost -U postgres -d postgres -c "\dt+"
     - name: Exec tests
       run: |
             export APP_POSTGRES_PASSWORD=${{ secrets.APP_POSTGRES_PASSWORD }} \
