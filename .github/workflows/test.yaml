@@ -17,7 +17,7 @@ jobs:
     - name: Run db background
       run: docker ps && docker-compose -f stack.yaml -f stack.dev.yaml up -d
     - name: Check db
-      run: docker exec -it db psql -U postgres -c "\dt+"
+      run: docker exec db psql -U postgres -c "\dt+"
     - name: Exec tests
       run: |
             export APP_POSTGRES_PASSWORD=${{ secrets.APP_POSTGRES_PASSWORD }} \
@@ -25,7 +25,7 @@ jobs:
     - name: Upload coverage report
       uses: codecov/codecov-action@v1.0.2
       with:
-        token: 7e788ea1-d20b-4832-94b6-5b716930ef0a
+        token: ${{ secrets.CODECOV_API_KEY }}
         file: ./coverage.txt
         flags: unittests
         name: codecov-umbrella
