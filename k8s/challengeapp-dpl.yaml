@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: lab-app
+  name: challengeapp
+  labels:
+    app: challengeapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: challengeapp
+  template:
+    metadata:
+      labels:
+        app: challengeapp
+    spec:
+      containers:
+        - name: challengeapp
+          image: '${docker_image}'
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: 250m
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: cfgm-develop

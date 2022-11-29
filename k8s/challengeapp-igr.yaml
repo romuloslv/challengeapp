@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: lab-app
+  name: igrs-develop
+  labels:
+    app: challengeapp
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: webproxy-ingress-challengeapp
+                port:
+                  number: 80
+          - path: /accounts
+            pathType: Prefix
+            backend:
+              service:
+                name: webproxy-ingress-challengeapp
+                port:
+                  number: 80
+          - path: /swagger
+            pathType: Prefix
+            backend:
+              service:
+                name: webproxy-ingress-challengeapp
+                port:
+                  number: 80
