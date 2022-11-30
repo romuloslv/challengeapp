@@ -1,19 +1,24 @@
-[![Deploy to fly.io app](https://github.com/romuloslv/challengeapp/actions/workflows/fly.yaml/badge.svg?branch=main)](https://github.com/romuloslv/challengeapp/actions/workflows/fly.yaml) [![Run test suite](https://github.com/romuloslv/challengeapp/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/romuloslv/challengeapp/actions/workflows/test.yaml) 
+![GitHub](https://img.shields.io/github/license/romuloslv/simpleapp) [![Deploy to fly.io app](https://github.com/romuloslv/challengeapp/actions/workflows/fly.yaml/badge.svg?branch=main)](https://github.com/romuloslv/challengeapp/actions/workflows/fly.yaml) [![Run test suite](https://github.com/romuloslv/challengeapp/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/romuloslv/challengeapp/actions/workflows/test.yaml) 
 [![codecov](https://codecov.io/gh/romuloslv/challengeapp/branch/main/graph/badge.svg?token=Z3MRFPEI6Q)](https://codecov.io/gh/romuloslv/challengeapp)
 
 # Hands On 👋🏼
 
+Simple REST API in GO to manage information. This repository is part of a delivery stack, aiming to simulate an application in production, exploring its automation/improvement points.
+
+<br>
+
 ## Requirements
 Before starting you should have the following commands installed:
 
-- [helm](https://helm.sh/docs/intro/install/#helm)
-- [terraform](https://www.terraform.io/downloads)
-- [gcloud-auth](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
-- [gcloud](https://cloud.google.com/sdk/docs/install)
+[docker](https://docs.docker.com/get-docker/) | [docker-compose](https://docs.docker.com/compose/install/) | [helm](https://helm.sh/docs/intro/install/#helm) | [terraform](https://www.terraform.io/downloads) | [gcloud-auth](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke) | [gcloud](https://cloud.google.com/sdk/docs/install)
+
+<br>
 
 First, you should export variables you are going to use 
 
-`export GOOGLE_PROJECT="<YOUR-PROJECT-NAME>" USE_GKE_GCLOUD_AUTH_PLUGIN="True" KUBE_CONFIG_PATH="~/.kube/config"`
+`export GOOGLE_PROJECT="<YOUR-PROJECT-NAME>"\
+        USE_GKE_GCLOUD_AUTH_PLUGIN="True" \
+        KUBE_CONFIG_PATH="~/.kube/config"`
 
 Authenticate into Google Cloud console, to so run the following command:
 
