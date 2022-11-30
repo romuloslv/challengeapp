@@ -1,6 +1,6 @@
 data "kubectl_path_documents" "challengeapp" {
   pattern = "./challengeapp/*.yaml"
-  vars    = { docker_image = "romuloslv/challengeapp:1.0" }
+  vars    = { docker_image = "romuloslv/customapp:1.0" }
 }
 
 resource "kubectl_manifest" "challengeapp" {
