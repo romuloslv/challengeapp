@@ -1,19 +1,22 @@
-.PHONY: build
-build:
-	@echo "Building local image..."
-	@docker build -t api:1.0 .
+.PHONY: run
+run:
+	@echo "Running local using docker run"
+	@./cmd/app/docker-run.sh
 
 .PHONY:	stop
 stop:
 	@docker compose -f stack.yaml down -v
+	@docker rm -f api db
 
 .PHONY:	prod
 prod:
+	@echo "Running local prod using docker-compose"
 	@docker compose -f stack.yaml down -v
 	@docker compose -f stack.yaml up --build
 
 .PHONY: dev
 dev:
+	@echo "Running local dev using docker-compose"
 	@docker compose -f stack.yaml down -v
 	@docker compose -f stack.yaml -f stack.dev.yaml up
 
