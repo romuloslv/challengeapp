@@ -49,7 +49,7 @@ resource "helm_release" "ingress-nginx" {
   version          = "4.3.0"
   timeout          = 600
 
-  values = [file("${path.module}/templates/ingress_nginx_values.yaml")]
+  values = [file("${path.module}/templates/ingress-nginx-values.yaml")]
 
   depends_on = [
     google_container_cluster.main,
@@ -108,7 +108,7 @@ resource "helm_release" "grafana" {
   timeout          = 600
 
   values = [
-    templatefile("${path.module}/templates/grafana_values.yaml", {
+    templatefile("${path.module}/templates/grafana-values.yaml", {
       admin_existing_secret = kubernetes_secret.grafana.metadata[0].name
       admin_user_key        = "admin-user"
       admin_password_key    = "admin-password"
