@@ -8,17 +8,14 @@ Simple REST API in GO to manage information. This repository is part of a delive
 <br>
 
 ## Requirements
-Before starting you should have the following commands installed:
 
-[docker](https://docs.docker.com/get-docker/) | [docker-compose](https://docs.docker.com/compose/install/) | [helm](https://helm.sh/docs/intro/install/#helm) | [terraform](https://www.terraform.io/downloads) | [gcloud-auth](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke) | [gcloud](https://cloud.google.com/sdk/docs/install)
+You will need these tools installed on your PC: [docker](https://docs.docker.com/get-docker/) | [docker-compose](https://docs.docker.com/compose/install/) | [helm](https://helm.sh/docs/intro/install/#helm) | [terraform](https://www.terraform.io/downloads) | [gcloud-auth](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke) | [gcloud](https://cloud.google.com/sdk/docs/install)
 
 <br>
 
 First, you should export variables you are going to use 
 
-`export GOOGLE_PROJECT="<YOUR-PROJECT-NAME>"\
-        USE_GKE_GCLOUD_AUTH_PLUGIN="True" \
-        KUBE_CONFIG_PATH="~/.kube/config"`
+`export GOOGLE_PROJECT="<YOUR-PROJECT-NAME>" USE_GKE_GCLOUD_AUTH_PLUGIN="True" KUBE_CONFIG_PATH="~/.kube/config"`
 
 Authenticate into Google Cloud console, to so run the following command:
 

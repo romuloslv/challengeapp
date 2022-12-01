@@ -20,8 +20,8 @@ dev:
 	@docker compose -f stack.yaml down -v
 	@docker compose -f stack.yaml -f stack.dev.yaml up
 
-.PHONY: all-tf
-all-tf: terraform-login terraform-validation terraform-apply-cluster terraform-apply-pkgs
+.PHONY: alltf
+alltf: terraform-login terraform-validation terraform-apply-cluster terraform-apply-pkgs
 
 .PHONY: terraform-login
 terraform-login:
