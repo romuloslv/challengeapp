@@ -227,7 +227,7 @@ resource "helm_release" "cert-manager" {
 
 resource "helm_release" "postgres" {
   name             = "database"
-  chart            = "postgres"
+  chart            = "postgresql"
   repository       = "https://charts.bitnami.com/bitnami"
   namespace        = "lab-app"
   create_namespace = true

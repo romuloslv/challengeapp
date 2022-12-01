@@ -1,3 +1,30 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgresql-data
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/volume"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgresql-data-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
 auth:
   enablePostgresUser: true
   postgresPassword: "StrongPassword"
