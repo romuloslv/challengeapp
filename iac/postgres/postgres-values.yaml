@@ -1,0 +1,11 @@
+auth:
+  enablePostgresUser: true
+  postgresPassword: "StrongPassword"
+  username: "postgres"
+  password: "test12321"
+  database: "postgres"
+
+primary:
+  persistence:
+    enabled: true
+    existingClaim: "postgresql-data-claim"
