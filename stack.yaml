@@ -49,10 +49,10 @@ services:
     networks:
     - lab
 
-  pgadmin:
+  pg:
     image: dpage/pgadmin4
-    hostname: pgadmin
-    container_name: pgadmin
+    hostname: pg
+    container_name: pg
     domainname: docker.local
     restart: on-failure:3
     environment:
@@ -61,7 +61,7 @@ services:
     volumes:
     - pgadmin_data:/var/lib/pgadmin
     healthcheck:
-      test: ["CMD", "wget", "-O", "-", "pgadmin:80/misc/ping"]
+      test: ["CMD", "wget", "-O", "-", "pg:80/misc/ping"]
       interval: 10s
       timeout: 5s
       retries: 5
