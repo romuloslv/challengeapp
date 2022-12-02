@@ -4,5 +4,20 @@ metadata:
   namespace: lab-app
   name: cfgm-develop
 data:
-  APP_POSTGRES_HOST: db
-  APP_POSTGRES_PASSWORD: test12321
+  #APP_POSTGRES_HOST: db
+  #APP_POSTGRES_PASSWORD: test12321
+  DATABASE_URL: postgresql://postgres:test12321@postgresql:5432/postgres?sslmode=disable
+
+
+
+
+
+
+
+
+
+
+
+
+
+

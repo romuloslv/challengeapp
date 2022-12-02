@@ -18,7 +18,7 @@ spec:
       containers:
         - name: challengeapp
           image: '${docker_image}'
-          imagePullPolicy: Always
+          imagePullPolicy: "IfNotPresent"
           resources:
             limits:
               memory: 128Mi
@@ -28,3 +28,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: cfgm-develop
+            - secretRef:
+                name: postgres-secrets

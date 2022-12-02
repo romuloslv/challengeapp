@@ -224,21 +224,3 @@ resource "helm_release" "cert-manager" {
     google_container_node_pool.general
   ]
 }
-
-resource "helm_release" "postgres" {
-  name             = "database"
-  chart            = "postgresql"
-  repository       = "https://charts.bitnami.com/bitnami"
-  namespace        = "lab-app"
-  create_namespace = true
-  version          = "12.1.2"
-  timeout          = 600
-
-  values = [
-    templatefile("${path.module}/templates/postgres-values.yaml", {
-      postgres_username = "postgres"
-      postgres_password = "test12321"
-      postgres_database = "postgresql"
-    })
-  ]
-}
