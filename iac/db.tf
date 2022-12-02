@@ -1,6 +1,6 @@
 data "kubectl_path_documents" "db" {
   pattern = "./postgres/*.yaml"
-  vars    = { docker_image = "postgres:15.1-alpine3.16" }
+  vars    = { docker_image = "postgres:10.4" }
 }
 
 resource "kubectl_manifest" "db" {

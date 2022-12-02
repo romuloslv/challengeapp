@@ -6,7 +6,7 @@ metadata:
   labels:
     app: challengeapp
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: challengeapp
@@ -21,12 +21,10 @@ spec:
           imagePullPolicy: "IfNotPresent"
           resources:
             limits:
-              memory: 128Mi
-              cpu: 250m
+              memory: 1Gi
+              cpu: 500m
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: cfgm-develop
-            - secretRef:
-                name: postgres-secrets
+                name: postgres-db-config

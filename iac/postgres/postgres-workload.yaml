@@ -1,0 +1,95 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: lab-app
+  name: postgresql-initdb-config
+  labels:
+    app: postgres
+data:
+  init.sql: |
+    CREATE TABLE IF NOT EXISTS accounts (
+    id          BIGSERIAL PRIMARY KEY,
+    person_id   VARCHAR(11) UNIQUE NOT NULL,
+    first_name  VARCHAR(30) NOT NULL,
+    last_name   VARCHAR(20) NOT NULL,
+    web_address VARCHAR(50),
+    date_birth  VARCHAR(10)
+    );
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: lab-app
+  name: postgres-db-config
+  labels:
+    app: postgresql-db
+data:
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_DB: postgres
+  POSTGRES_HOST: postgresql
+  PGDATA: /data/pgdata
+  DATABASE_URL: postgres://postgres:postgres@postgresql:5432/postgres?sslmode=disable
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: lab-app
+  name: postgres-db-lb
+spec:
+  selector:
+    app: postgresql-db
+  type: LoadBalancer
+  ports:
+  - port: 5432
+    targetPort: 5432
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  namespace: lab-app
+  name: postgresql-db
+spec:
+  serviceName: postgresql-db-service
+  selector:
+    matchLabels:
+      app: postgresql-db
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: postgresql-db
+    spec:
+      containers:
+      - name: postgresql-db
+        image: '${docker_image}'
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: 5432
+        resources:
+          requests:
+            memory: "265Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: postgresql-db-disk
+          mountPath: /data
+        - name: postgresql-initdb
+          mountPath: /docker-entrypoint-initdb.d
+        envFrom:
+          - configMapRef:
+              name: postgres-db-config
+      volumes:
+        - name: postgresql-initdb
+          configMap:
+            name: postgresql-initdb-config
+  volumeClaimTemplates:
+  - metadata:
+      name: postgresql-db-disk
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi

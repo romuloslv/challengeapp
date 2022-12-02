@@ -25,6 +25,8 @@
 #############################################################
 
 #FROM postgres:15.1-alpine3.16 AS customdb
+#ENV POSTGRES_USER postgres
+#ENV POSTGRES_DB postgres
 #ENV POSTGRES_PASSWORD test12321
+#PGDATA /var/lib/postgresql/data/pgdata
 #COPY structure/schema.sql /docker-entrypoint-initdb.d/
-

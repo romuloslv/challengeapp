@@ -13,6 +13,28 @@ You will need these tools installed on your PC: [docker](https://docs.docker.com
 
 <br>
 
+## Docs
+
+[local](http://localhost:8080/swagger/index.htm) | [PasS](https://appcloud.fly.dev/swagger/index.htm)
+
+## To tests local using docker
+
+`$ make run`
+
+## To tests local using docker compose
+
+`make prod`
+
+## To test tests local
+
+`make dev; cd api/accounts; go test -v`
+
+## Deploy PaaS/Run Tests
+
+[Page](https://github.com/romuloslv/challengeapp/actions) Actions of project
+
+## IAC
+
 First, you should export variables you are going to use 
 
 `export GOOGLE_PROJECT="<YOUR-PROJECT-NAME>" USE_GKE_GCLOUD_AUTH_PLUGIN="True" KUBE_CONFIG_PATH="~/.kube/config"`
