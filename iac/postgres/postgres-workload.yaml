@@ -24,12 +24,12 @@ metadata:
   labels:
     app: postgresql-db
 data:
-  POSTGRES_PASSWORD: postgres
-  POSTGRES_USER: postgres
-  POSTGRES_DB: postgres
-  POSTGRES_HOST: postgresql
-  PGDATA: /data/pgdata
-  DATABASE_URL: postgres://postgres:postgres@postgresql:5432/postgres?sslmode=disable
+  APP_POSTGRES_PASSWORD: postgres
+  APP_POSTGRES_USER: postgres
+  APP_POSTGRES_HOST: postgres-db-lb
+  APP_POSTGRES_DB: postgres
+  APP_PGDATA: /data/pgdata
+  APP_DATABASE_URL: postgres://postgres:postgres@postgres-db-lb:5432/postgres?sslmode=disable
 ---
 apiVersion: v1
 kind: Service
@@ -39,7 +39,7 @@ metadata:
 spec:
   selector:
     app: postgresql-db
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 5432
     targetPort: 5432
