@@ -15,7 +15,7 @@ You will need these tools installed on your PC: [docker](https://docs.docker.com
 
 ## Docs
 
-[local](http://localhost:8080/swagger/index.htm) | [PasS](https://appcloud.fly.dev/swagger/index.htm)
+[local](http://localhost:8080/swagger/index.html) | [PasS](https://appcloud.fly.dev/swagger/index.html)
 
 ## To tests local using docker
 
