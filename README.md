@@ -35,7 +35,11 @@ You will need these tools installed on your PC: [docker](https://docs.docker.com
 
 ## IAC
 
-First, you should export variables you are going to use 
+First, you should create bucket and export variables you are going to use.
+
+- After accessing the gcp console, create a bucket named poc-from-gke-tf-state. The reference of this bucket is described in the provider.tf file.
+
+- Then export the necessary environment variables to start the configuration process
 
 `export GOOGLE_PROJECT="<YOUR-PROJECT-NAME>" USE_GKE_GCLOUD_AUTH_PLUGIN="True" KUBE_CONFIG_PATH="~/.kube/config"`
 
