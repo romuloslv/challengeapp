@@ -1,4 +1,4 @@
 postgres:
-  host: postgres-db-lb
+  host: localhost
   user: postgres
   password: postgres

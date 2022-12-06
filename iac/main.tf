@@ -2,17 +2,17 @@ resource "google_container_cluster" "main" {
   name     = var.kubernetes_name
   location = local.region
 
-  node_pool { name = "builtin" }
-  lifecycle { ignore_changes = [node_pool] }
+  remove_default_node_pool = true
+  initial_node_count       = 1
 }
 
 resource "google_container_node_pool" "general" {
-  name               = "general"
+  name               = "default"
   cluster            = google_container_cluster.main.id
   initial_node_count = 3
 
   node_config {
-    preemptible  = false
+    preemptible  = true
     machine_type = "e2-standard-2"
   }
 
