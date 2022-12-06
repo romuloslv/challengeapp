@@ -9,7 +9,7 @@ resource "google_container_cluster" "main" {
 resource "google_container_node_pool" "general" {
   name               = "default"
   cluster            = google_container_cluster.main.id
-  initial_node_count = 3
+  initial_node_count = 4
 
   node_config {
     preemptible  = true
