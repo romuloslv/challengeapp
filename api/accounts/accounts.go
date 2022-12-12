@@ -22,13 +22,17 @@ func NewService(queries *database.Queries) *Service {
 
 func (s *Service) RegisterHandlers(router *gin.Engine) {
 	url := ginSwagger.URL("/swagger/doc.json")
+	router.GET("/", s.Home)
+	router.GET("/health", s.CheckHealth)
+	router.GET("/version", s.Version)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-	router.POST("/accounts", s.Create)
+	router.GET("/accounts", s.List)
 	router.GET("/accounts/:id", s.Get)
+	router.POST("/accounts", s.Create)
 	router.PUT("/accounts/:id", s.FullUpdate)
 	router.PATCH("/accounts/:id", s.PartialUpdate)
 	router.DELETE("/accounts/:id", s.Delete)
-	router.GET("/accounts", s.List)
+
 }
 
 type apiAccount struct {
@@ -63,6 +67,39 @@ type pathParameters struct {
 	ID int64 `uri:"id" binding:"required"`
 }
 
+// @Summary Home
+// @Description Home
+// @Tags home
+// @Accept json
+// @Produce json
+// @Success 200 {object} string
+// @Router / [get]
+func (s *Service) Home(c *gin.Context) {
+	c.String(http.StatusOK, "Welcome to the Challenge App!")
+}
+
+// @Summary Check health
+// @Description Check health
+// @Tags health
+// @Accept json
+// @Produce json
+// @Success 200 {object} string
+// @Router /health [get]
+func (s *Service) CheckHealth(c *gin.Context) {
+	c.String(http.StatusOK, "{ \"status\" : \"UP\" }")
+}
+
+// @Summary Version
+// @Description Version
+// @Tags version
+// @Accept json
+// @Produce json
+// @Success 200 {object} string
+// @Router /version [get]
+func (s *Service) Version(c *gin.Context) {
+	c.String(http.StatusOK, "{ \"version\" : \"0.1.0\" }")
+}
+
 // @Summary Create account
 // @Description Create account
 // @Tags accounts
@@ -77,7 +114,7 @@ func (s *Service) Create(c *gin.Context) {
 	// Parse request
 	var request apiAccount
 	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 
@@ -91,7 +128,7 @@ func (s *Service) Create(c *gin.Context) {
 
 	account, err := s.queries.CreateAccount(context.Background(), params)
 	if err != nil {
-		c.JSON(http.StatusServiceUnavailable, gin.H{"error": err.Error()})
+		c.JSON(http.StatusServiceUnavailable, gin.H{"Error": err.Error()})
 		return
 	}
 
@@ -115,7 +152,7 @@ func (s *Service) Get(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
 	if err := c.ShouldBindUri(&pathParams); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 
@@ -123,11 +160,11 @@ func (s *Service) Get(c *gin.Context) {
 	account, err := s.queries.GetAccount(context.Background(), pathParams.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			c.JSON(http.StatusNotFound, gin.H{"Error": err.Error()})
 			return
 		}
 
-		c.JSON(http.StatusServiceUnavailable, gin.H{"error": err.Error()})
+		c.JSON(http.StatusServiceUnavailable, gin.H{"Error": err.Error()})
 		return
 	}
 
@@ -152,12 +189,12 @@ func (s *Service) FullUpdate(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
 	if err := c.ShouldBindUri(&pathParams); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 	var request apiAccount
 	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 
@@ -175,11 +212,11 @@ func (s *Service) FullUpdate(c *gin.Context) {
 	account, err := s.queries.UpdateAccount(context.Background(), params)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			c.JSON(http.StatusNotFound, gin.H{"Error": err.Error()})
 			return
 		}
 
-		c.JSON(http.StatusServiceUnavailable, gin.H{"error": err.Error()})
+		c.JSON(http.StatusServiceUnavailable, gin.H{"Error": err.Error()})
 		return
 	}
 
@@ -204,12 +241,12 @@ func (s *Service) PartialUpdate(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
 	if err := c.ShouldBindUri(&pathParams); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 	var request apiAccountPartialUpdate
 	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 
@@ -240,11 +277,11 @@ func (s *Service) PartialUpdate(c *gin.Context) {
 	account, err := s.queries.PartialUpdateAccount(context.Background(), params)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			c.JSON(http.StatusNotFound, gin.H{"Error": err.Error()})
 			return
 		}
 
-		c.JSON(http.StatusServiceUnavailable, gin.H{"error": err.Error()})
+		c.JSON(http.StatusServiceUnavailable, gin.H{"Error": err.Error()})
 		return
 	}
 
@@ -268,18 +305,18 @@ func (s *Service) Delete(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
 	if err := c.ShouldBindUri(&pathParams); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 
 	// Delete account
 	if err := s.queries.DeleteAccount(context.Background(), pathParams.ID); err != nil {
 		if err == sql.ErrNoRows {
-			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			c.JSON(http.StatusNotFound, gin.H{"Error": err.Error()})
 			return
 		}
 
-		c.JSON(http.StatusServiceUnavailable, gin.H{"error": err.Error()})
+		c.JSON(http.StatusServiceUnavailable, gin.H{"Error": err.Error()})
 		return
 	}
 
@@ -307,12 +344,12 @@ func (s *Service) List(c *gin.Context) {
 	// List accounts
 	accounts, err := s.queries.ListAccounts(context.Background())
 	if err != nil {
-		c.JSON(http.StatusServiceUnavailable, gin.H{"error": err.Error()})
+		c.JSON(http.StatusServiceUnavailable, gin.H{"Error": err.Error()})
 		return
 	}
 
 	if len(accounts) == 0 {
-		c.AbortWithStatus(http.StatusNotFound)
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"Error": "No accounts found!"})
 		return
 	}
 

@@ -53,6 +53,21 @@ info:
   title: Go REST API
   version: 1.0.0
 paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Home
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Home
+      tags:
+      - home
   /accounts:
     get:
       consumes:
@@ -275,6 +290,36 @@ paths:
       summary: Full update account
       tags:
       - accounts
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Check health
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Check health
+      tags:
+      - health
+  /version:
+    get:
+      consumes:
+      - application/json
+      description: Version
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Version
+      tags:
+      - version
 schemes:
 - http
 swagger: "2.0"

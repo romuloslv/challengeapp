@@ -13,9 +13,26 @@ You will need these tools installed on your PC: [docker](https://docs.docker.com
 
 <br>
 
-## Docs
+## Local
 
-[local](http://localhost:8080/swagger/index.html) | [PasS](https://appcloud.fly.dev/swagger/index.html)
+| Port      | URI                 | Description           | Method |
+| --------- | ------------------- | --------------------- | ------ |
+| :8080     | /                   | Returns Home          | GET    |
+| :8080     | /health             | Returns Healthy       | GET    |
+| :8080     | /version            | Returns Version       | GET    |
+| :8080     | /accounts           | Returns List Accounts | GET    |
+| :8080     | /accounts/{id}      | Returns Id   Account  | GET    |
+| :8080     | /swagger/doc.json   | Open Swagger Docs     | GET    |
+| :8080     | /swagger/index.html | Open Swagger Page     | GET    |
+
+
+<br>
+
+## Fly APP - PaaS
+
+https://appcloud.fly.dev
+
+<br>
 
 ## To tests local using docker
 
