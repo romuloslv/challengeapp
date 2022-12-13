@@ -7,7 +7,6 @@ package database
 import ()
 
 type Account struct {
-	ID         int64
 	PersonID   string
 	FirstName  string
 	LastName   string

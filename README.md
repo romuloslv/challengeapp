@@ -13,42 +13,64 @@ You will need these tools installed on your PC: [docker](https://docs.docker.com
 
 <br>
 
-## Local
+## Local APP
 
-| Port      | URI                 | Description           | Method |
-| --------- | ------------------- | --------------------- | ------ |
-| :8080     | /                   | Returns Home          | GET    |
-| :8080     | /health             | Returns Healthy       | GET    |
-| :8080     | /version            | Returns Version       | GET    |
-| :8080     | /accounts           | Returns List Accounts | GET    |
-| :8080     | /accounts/{id}      | Returns Id   Account  | GET    |
-| :8080     | /swagger/doc.json   | Open Swagger Docs     | GET    |
-| :8080     | /swagger/index.html | Open Swagger Page     | GET    |
-
-
-<br>
-
-## Fly APP - PaaS
-
-https://appcloud.fly.dev
+| Port      | URI                   | Description            | Method |
+| --------- | --------------------- | ---------------------- | ------ |
+| :8080     | /                     | Returns Home           | GET    |
+| :8080     | /health               | Returns Healthy        | GET    |
+| :8080     | /version              | Returns Version        | GET    |
+| :8080     | /accounts             | Returns List Accounts  | GET    |
+| :8080     | /accounts/{person_id} | Returns Id   Account   | GET    |
+| :8080     | /accounts             | Insert account         | POST   |
+| :8080     | /accounts/{person_id} | Update/Replace account | PUT    |
+| :8080     | /accounts/{person_id} | Update/Modify account  | PATCH  |
+| :8080     | /accounts/{person_id} | Delete account         | DELETE |
 
 <br>
 
-## To tests local using docker
+## Local Docs
 
-`$ make run`
+| Port      | URI                   | Description            | Method |
+| --------- | --------------------- | ---------------------- | ------ |
+| :8080     | /swagger/doc.json     | Open Swagger Docs      | GET    |
+| :8080     | /swagger/index.html   | Open Swagger Page      | GET    |
 
-## To tests local using docker compose
+<br>
 
-`make prod`
+## To provision the local stack using docker run
 
-## To test tests local
+`make stop && make run`
 
-`make dev; cd api/accounts; go test -v`
+## To run built-in tests using the local stack provisioned with make run
 
-## Deploy PaaS/Run Tests
+`make tests`
 
-[Page](https://github.com/romuloslv/challengeapp/actions) Actions of project
+## To provision the local stack using docker compose (only tests)
+
+`make stop && make dev`
+
+## To run built-in tests using the local stack provisioned with make dev
+
+`make tests`
+
+## To provision the local stack using docker compose (production ready)
+
+`make stop && make prod`
+
+## To run tests, make calls consuming the API
+
+`Examples in structure/calls.tpl`
+
+## Remove stack local
+
+`make stop`
+
+<br>
+
+  Deploy PaaS/Run Test                                                         | Fly APP - PaaS
+| ---------------------------------------------------------------------------- | ------------------------ |
+| [Page Actions of project](https://github.com/romuloslv/challengeapp/actions) | https://appcloud.fly.dev |
 
 <br>
 

@@ -1,4 +1,3 @@
-# https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
 resource "helm_release" "kubernetes_dashboard" {
   name             = "dashboard"
   chart            = "kubernetes-dashboard"
@@ -39,7 +38,6 @@ resource "helm_release" "kubernetes_dashboard" {
   ]
 }
 
-# https://kubernetes.github.io/ingress-nginx/
 resource "helm_release" "ingress-nginx" {
   name             = "webproxy"
   chart            = "ingress-nginx"
@@ -57,7 +55,6 @@ resource "helm_release" "ingress-nginx" {
   ]
 }
 
-# https://prometheus.io/
 resource "helm_release" "prometheus" {
   name             = "reader"
   chart            = "prometheus"
@@ -97,7 +94,6 @@ resource "helm_release" "prometheus" {
   ]
 }
 
-# https://grafana.com/
 resource "helm_release" "grafana" {
   name             = "monitor"
   chart            = "grafana"
@@ -142,7 +138,6 @@ resource "kubernetes_secret" "grafana" {
 
 resource "random_password" "grafana" { length = 24 }
 
-# https://www.elastic.co/elasticsearch/
 resource "helm_release" "elasticsearch" {
   name             = "exporter"
   chart            = "elasticsearch"
@@ -163,7 +158,6 @@ resource "helm_release" "elasticsearch" {
   ]
 }
 
-# https://www.elastic.co/kibana/
 resource "helm_release" "kibana" {
   name             = "indexer"
   chart            = "kibana"
@@ -182,7 +176,6 @@ resource "helm_release" "kibana" {
   ]
 }
 
-# https://dapr.io/
 resource "helm_release" "dapr" {
   name             = "runtime"
   chart            = "dapr"
@@ -203,7 +196,6 @@ resource "helm_release" "dapr" {
   ]
 }
 
-# https://cert-manager.io/
 resource "helm_release" "cert-manager" {
   name             = "certificate"
   chart            = "cert-manager"

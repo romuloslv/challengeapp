@@ -1,24 +1,30 @@
+MAKEFLAGS += --silent
+
 .PHONY: run
 run:
 	@echo "Running local using docker run"
 	@./cmd/app/docker-run.sh
 
-.PHONY:	stop
-stop:
-	@docker compose -f stack.yaml down -v
-	@docker rm -f api db
-
 .PHONY:	prod
 prod:
 	@echo "Running local prod using docker-compose"
 	@docker compose -f stack.yaml down -v
-	@docker compose -f stack.yaml up --build
+	@docker compose -f stack.yaml up --build -d
 
 .PHONY: dev
 dev:
-	@echo "Running local dev using docker-compose"
+	@echo "Running tests local using docker-compose"
 	@docker compose -f stack.yaml down -v
-	@docker compose -f stack.yaml -f stack.dev.yaml up
+	@docker compose -f stack.yaml -f stack.dev.yaml up -d
+
+.PHONY: tests
+tests:
+	@sleep 15 && cd api/accounts && go test -v
+
+.PHONY:	stop
+stop:
+	@docker compose -f stack.yaml down -v 2> /dev/null
+	@docker rm -f api db pg 2> /dev/null
 
 .PHONY: alltf
 alltf: terraform-login terraform-validation terraform-apply-cluster terraform-apply-pkgs

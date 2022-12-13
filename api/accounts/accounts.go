@@ -27,16 +27,15 @@ func (s *Service) RegisterHandlers(router *gin.Engine) {
 	router.GET("/version", s.Version)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	router.GET("/accounts", s.List)
-	router.GET("/accounts/:id", s.Get)
+	router.GET("/accounts/:person_id", s.Get)
 	router.POST("/accounts", s.Create)
-	router.PUT("/accounts/:id", s.FullUpdate)
-	router.PATCH("/accounts/:id", s.PartialUpdate)
-	router.DELETE("/accounts/:id", s.Delete)
+	router.PUT("/accounts/:person_id", s.FullUpdate)
+	router.PATCH("/accounts/:person_id", s.PartialUpdate)
+	router.DELETE("/accounts/:person_id", s.Delete)
 
 }
 
 type apiAccount struct {
-	ID         int64
 	PersonID   string `json:"person_id,omitempty" binding:"omitempty,max=11"`
 	FirstName  string `json:"first_name,omitempty" binding:"required,max=30"`
 	LastName   string `json:"last_name,omitempty" binding:"required,max=20"`
@@ -54,7 +53,6 @@ type apiAccountPartialUpdate struct {
 
 func fromDB(account database.Account) *apiAccount {
 	return &apiAccount{
-		ID:         account.ID,
 		PersonID:   account.PersonID,
 		FirstName:  account.FirstName,
 		LastName:   account.LastName,
@@ -64,7 +62,7 @@ func fromDB(account database.Account) *apiAccount {
 }
 
 type pathParameters struct {
-	ID int64 `uri:"id" binding:"required"`
+	PersonID string `uri:"person_id" binding:"required"`
 }
 
 // @Summary Home
@@ -142,12 +140,12 @@ func (s *Service) Create(c *gin.Context) {
 // @Tags accounts
 // @Accept json
 // @Produce json
-// @Param id path int true "Account ID"
+// @Param person_id path int true "Account PersonID"
 // @Success 200 {object} apiAccount
 // @Failure 400 {object} string
 // @Failure 404 {object} string
 // @Failure 503 {object} string
-// @Router /accounts/{id} [get]
+// @Router /accounts/{person_id} [get]
 func (s *Service) Get(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
@@ -157,7 +155,7 @@ func (s *Service) Get(c *gin.Context) {
 	}
 
 	// Get account
-	account, err := s.queries.GetAccount(context.Background(), pathParams.ID)
+	account, err := s.queries.GetAccount(context.Background(), pathParams.PersonID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(http.StatusNotFound, gin.H{"Error": err.Error()})
@@ -178,13 +176,13 @@ func (s *Service) Get(c *gin.Context) {
 // @Tags accounts
 // @Accept json
 // @Produce json
-// @Param id path int true "Account ID"
+// @Param person_id path int true "Account PersonID"
 // @Param account body apiAccount true "Account"
 // @Success 200 {object} apiAccount
 // @Failure 400 {object} string
 // @Failure 404 {object} string
 // @Failure 503 {object} string
-// @Router /accounts/{id} [put]
+// @Router /accounts/{person_id} [put]
 func (s *Service) FullUpdate(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
@@ -200,8 +198,7 @@ func (s *Service) FullUpdate(c *gin.Context) {
 
 	// Update account
 	params := database.UpdateAccountParams{
-		ID:         pathParams.ID,
-		PersonID:   request.PersonID,
+		PersonID:   pathParams.PersonID,
 		FirstName:  request.FirstName,
 		LastName:   request.LastName,
 		WebAddress: request.WebAddress,
@@ -230,13 +227,13 @@ func (s *Service) FullUpdate(c *gin.Context) {
 // @Tags accounts
 // @Accept json
 // @Produce json
-// @Param id path int true "Account ID"
+// @Param person_id path int true "Account PersonID"
 // @Param account body apiAccountPartialUpdate true "Account"
 // @Success 200 {object} apiAccount
 // @Failure 400 {object} string
 // @Failure 404 {object} string
 // @Failure 503 {object} string
-// @Router /accounts/{id} [patch]
+// @Router /accounts/{person_id} [patch]
 func (s *Service) PartialUpdate(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
@@ -251,12 +248,8 @@ func (s *Service) PartialUpdate(c *gin.Context) {
 	}
 
 	// Update account
-	params := database.PartialUpdateAccountParams{ID: pathParams.ID}
+	params := database.PartialUpdateAccountParams{PersonID: pathParams.PersonID}
 
-	if request.PersonID != nil {
-		params.UpdatePersonID = true
-		params.PersonID = *request.PersonID
-	}
 	if request.FirstName != nil {
 		params.UpdateFirstName = true
 		params.FirstName = *request.FirstName
@@ -295,12 +288,12 @@ func (s *Service) PartialUpdate(c *gin.Context) {
 // @Tags accounts
 // @Accept json
 // @Produce json
-// @Param id path int true "Account ID"
+// @Param person_id path int true "Account PersonID"
 // @Success 204
 // @Failure 400 {object} string
 // @Failure 404 {object} string
 // @Failure 503 {object} string
-// @Router /accounts/{id} [delete]
+// @Router /accounts/{person_id} [delete]
 func (s *Service) Delete(c *gin.Context) {
 	// Parse request
 	var pathParams pathParameters
@@ -310,7 +303,7 @@ func (s *Service) Delete(c *gin.Context) {
 	}
 
 	// Delete account
-	if err := s.queries.DeleteAccount(context.Background(), pathParams.ID); err != nil {
+	if err := s.queries.DeleteAccount(context.Background(), pathParams.PersonID); err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(http.StatusNotFound, gin.H{"Error": err.Error()})
 			return
@@ -329,7 +322,7 @@ func (s *Service) Delete(c *gin.Context) {
 // @Tags accounts
 // @Accept json
 // @Produce json
-// @Param person_id query int false "Person ID"
+// @Param person_id query int false "Person PersonID"
 // @Param first_name query string false "First name"
 // @Param last_name query string false "Last name"
 // @Param web_address query string false "Web address"
@@ -349,7 +342,7 @@ func (s *Service) List(c *gin.Context) {
 	}
 
 	if len(accounts) == 0 {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"Error": "No accounts found!"})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"Message": "No accounts found!"})
 		return
 	}
 

@@ -103,7 +103,7 @@ func (suite *ServiceTestSuite) TestGet() {
 	})
 	suite.Require().NoError(err)
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("/accounts/%d", account.ID), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("/accounts/%s", account.PersonID), nil)
 	suite.Require().NoError(err)
 
 	rec := httptest.NewRecorder()
@@ -112,7 +112,6 @@ func (suite *ServiceTestSuite) TestGet() {
 	suite.Require().Equal(http.StatusOK, rec.Result().StatusCode)
 	var got apiAccount
 	suite.Require().NoError(json.NewDecoder(rec.Result().Body).Decode(&got))
-	suite.Require().Equal(account.ID, got.ID)
 	suite.Require().Equal(account.PersonID, got.PersonID)
 	suite.Require().Equal(account.FirstName, got.FirstName)
 	suite.Require().Equal(account.LastName, got.LastName)
@@ -131,7 +130,7 @@ func (suite *ServiceTestSuite) TestGetNotFound() {
 }
 
 func (suite *ServiceTestSuite) TestGetBadRequest() {
-	req, err := http.NewRequest("GET", "/accounts/bad-request", nil)
+	req, err := http.NewRequest("POST", "/accounts", nil)
 	suite.Require().NoError(err)
 
 	rec := httptest.NewRecorder()
@@ -160,7 +159,7 @@ func (suite *ServiceTestSuite) TestFullUpdateBadRequest() {
 	var buffer bytes.Buffer
 	suite.Require().NoError(json.NewEncoder(&buffer).Encode(request))
 
-	req, err := http.NewRequest("PUT", fmt.Sprintf("/accounts/%d", account.ID), &buffer)
+	req, err := http.NewRequest("PUT", fmt.Sprintf("/accounts/%s", account.PersonID), &buffer)
 	suite.Require().NoError(err)
 
 	rec := httptest.NewRecorder()
@@ -189,7 +188,7 @@ func (suite *ServiceTestSuite) TestFullUpdate() {
 	var buffer bytes.Buffer
 	suite.Require().NoError(json.NewEncoder(&buffer).Encode(update))
 
-	req, err := http.NewRequest("PUT", fmt.Sprintf("/accounts/%d", account.ID), &buffer)
+	req, err := http.NewRequest("PUT", fmt.Sprintf("/accounts/%s", account.PersonID), &buffer)
 	suite.Require().NoError(err)
 
 	rec := httptest.NewRecorder()
@@ -198,7 +197,6 @@ func (suite *ServiceTestSuite) TestFullUpdate() {
 	suite.Require().Equal(http.StatusOK, rec.Result().StatusCode)
 	var got apiAccount
 	suite.Require().NoError(json.NewDecoder(rec.Result().Body).Decode(&got))
-	suite.Require().Equal(account.ID, got.ID)
 	suite.Require().Equal(update.PersonID, got.PersonID)
 	suite.Require().Equal(update.FirstName, got.FirstName)
 	suite.Require().Equal(update.LastName, got.LastName)
@@ -223,7 +221,7 @@ func (suite *ServiceTestSuite) TestPartialUpdateBadRequest() {
 	var buffer bytes.Buffer
 	suite.Require().NoError(json.NewEncoder(&buffer).Encode(request))
 
-	req, err := http.NewRequest("PATCH", fmt.Sprintf("/accounts/%d", account.ID), &buffer)
+	req, err := http.NewRequest("PATCH", fmt.Sprintf("/accounts/%s", account.PersonID), &buffer)
 	suite.Require().NoError(err)
 
 	rec := httptest.NewRecorder()
@@ -248,7 +246,7 @@ func (suite *ServiceTestSuite) TestPartialUpdate() {
 	var buffer bytes.Buffer
 	suite.Require().NoError(json.NewEncoder(&buffer).Encode(update))
 
-	req, err := http.NewRequest("PATCH", fmt.Sprintf("/accounts/%d", account.ID), &buffer)
+	req, err := http.NewRequest("PATCH", fmt.Sprintf("/accounts/%s", account.PersonID), &buffer)
 	suite.Require().NoError(err)
 
 	rec := httptest.NewRecorder()
@@ -257,7 +255,6 @@ func (suite *ServiceTestSuite) TestPartialUpdate() {
 	suite.Require().Equal(http.StatusOK, rec.Result().StatusCode)
 	var got apiAccount
 	suite.Require().NoError(json.NewDecoder(rec.Result().Body).Decode(&got))
-	suite.Require().Equal(account.ID, got.ID)
 	suite.Require().Equal(account.PersonID, got.PersonID)
 	suite.Require().Equal(update.FirstName, got.FirstName)
 	suite.Require().Equal(account.LastName, got.LastName)
@@ -275,19 +272,19 @@ func (suite *ServiceTestSuite) TestDelete() {
 	})
 	suite.Require().NoError(err)
 
-	req, err := http.NewRequest("DELETE", fmt.Sprintf("/accounts/%d", account.ID), nil)
+	req, err := http.NewRequest("DELETE", fmt.Sprintf("/accounts/%s", account.PersonID), nil)
 	suite.Require().NoError(err)
 
 	rec := httptest.NewRecorder()
 	suite.router.ServeHTTP(rec, req)
 
 	suite.Require().Equal(http.StatusOK, rec.Result().StatusCode)
-	_, err = suite.queries.GetAccount(context.Background(), account.ID)
+	_, err = suite.queries.GetAccount(context.Background(), account.PersonID)
 	suite.Require().Error(err)
 }
 
 func (suite *ServiceTestSuite) TestList() {
-	req, err := http.NewRequest("GET", "/accounts", nil)
+	req, err := http.NewRequest("GET", "/accounts/00000000000", nil)
 	suite.Require().NoError(err)
 
 	rec := httptest.NewRecorder()

@@ -12,7 +12,7 @@ import (
 const createAccount = `-- name: CreateAccount :one
 INSERT INTO accounts (person_id, first_name, last_name, web_address, date_birth)
 VALUES ($1, $2, $3, $4, $5)
-RETURNING id, person_id, first_name, last_name, web_address, date_birth
+RETURNING person_id, first_name, last_name, web_address, date_birth
 `
 
 type CreateAccountParams struct {
@@ -33,7 +33,6 @@ func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (A
 	)
 	var i Account
 	err := row.Scan(
-		&i.ID,
 		&i.PersonID,
 		&i.FirstName,
 		&i.LastName,
@@ -46,26 +45,25 @@ func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (A
 const deleteAccount = `-- name: DeleteAccount :exec
 DELETE
 FROM accounts
-WHERE id = $1
+WHERE person_id = $1
 `
 
-func (q *Queries) DeleteAccount(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteAccount, id)
+func (q *Queries) DeleteAccount(ctx context.Context, personID string) error {
+	_, err := q.db.ExecContext(ctx, deleteAccount, personID)
 	return err
 }
 
 const getAccount = `-- name: GetAccount :one
-SELECT id, person_id, first_name, last_name, web_address, date_birth
+SELECT person_id, first_name, last_name, web_address, date_birth
 FROM accounts
-WHERE id = $1
+WHERE person_id = $1
 LIMIT 1
 `
 
-func (q *Queries) GetAccount(ctx context.Context, id int64) (Account, error) {
-	row := q.db.QueryRowContext(ctx, getAccount, id)
+func (q *Queries) GetAccount(ctx context.Context, personID string) (Account, error) {
+	row := q.db.QueryRowContext(ctx, getAccount, personID)
 	var i Account
 	err := row.Scan(
-		&i.ID,
 		&i.PersonID,
 		&i.FirstName,
 		&i.LastName,
@@ -76,7 +74,7 @@ func (q *Queries) GetAccount(ctx context.Context, id int64) (Account, error) {
 }
 
 const listAccounts = `-- name: ListAccounts :many
-SELECT id, person_id, first_name, last_name, web_address, date_birth
+SELECT person_id, first_name, last_name, web_address, date_birth
 FROM accounts
 ORDER BY first_name
 `
@@ -91,7 +89,6 @@ func (q *Queries) ListAccounts(ctx context.Context) ([]Account, error) {
 	for rows.Next() {
 		var i Account
 		if err := rows.Scan(
-			&i.ID,
 			&i.PersonID,
 			&i.FirstName,
 			&i.LastName,
@@ -113,18 +110,15 @@ func (q *Queries) ListAccounts(ctx context.Context) ([]Account, error) {
 
 const partialUpdateAccount = `-- name: PartialUpdateAccount :one
 UPDATE accounts
-SET person_id   = CASE WHEN $1::boolean THEN $2::VARCHAR(11) ELSE person_id END,
-    first_name  = CASE WHEN $3::boolean THEN $4::VARCHAR(30) ELSE first_name END,
-    last_name   = CASE WHEN $5::boolean THEN $6::VARCHAR(20) ELSE last_name END,
-    web_address = CASE WHEN $7::boolean THEN $8::VARCHAR(50) ELSE web_address END,
-    date_birth  = CASE WHEN $9::boolean THEN $10::VARCHAR(10) ELSE date_birth END
-WHERE id = $11
-RETURNING id, person_id, first_name, last_name, web_address, date_birth
+SET first_name  = CASE WHEN $1::boolean THEN $2::VARCHAR(30) ELSE first_name END,
+    last_name   = CASE WHEN $3::boolean THEN $4::VARCHAR(20) ELSE last_name END,
+    web_address = CASE WHEN $5::boolean THEN $6::VARCHAR(50) ELSE web_address END,
+    date_birth  = CASE WHEN $7::boolean THEN $8::VARCHAR(10) ELSE date_birth END
+WHERE person_id = $9
+RETURNING person_id, first_name, last_name, web_address, date_birth
 `
 
 type PartialUpdateAccountParams struct {
-	UpdatePersonID   bool
-	PersonID         string
 	UpdateFirstName  bool
 	FirstName        string
 	UpdateLastName   bool
@@ -133,13 +127,11 @@ type PartialUpdateAccountParams struct {
 	WebAddress       string
 	UpdateDateBirth  bool
 	DateBirth        string
-	ID               int64
+	PersonID         string
 }
 
 func (q *Queries) PartialUpdateAccount(ctx context.Context, arg PartialUpdateAccountParams) (Account, error) {
 	row := q.db.QueryRowContext(ctx, partialUpdateAccount,
-		arg.UpdatePersonID,
-		arg.PersonID,
 		arg.UpdateFirstName,
 		arg.FirstName,
 		arg.UpdateLastName,
@@ -148,11 +140,10 @@ func (q *Queries) PartialUpdateAccount(ctx context.Context, arg PartialUpdateAcc
 		arg.WebAddress,
 		arg.UpdateDateBirth,
 		arg.DateBirth,
-		arg.ID,
+		arg.PersonID,
 	)
 	var i Account
 	err := row.Scan(
-		&i.ID,
 		&i.PersonID,
 		&i.FirstName,
 		&i.LastName,
@@ -164,17 +155,15 @@ func (q *Queries) PartialUpdateAccount(ctx context.Context, arg PartialUpdateAcc
 
 const updateAccount = `-- name: UpdateAccount :one
 UPDATE accounts
-SET person_id   = $2,
-    first_name  = $3,
-    last_name   = $4,
-    web_address = $5,
-    date_birth  = $6
-WHERE id = $1
-RETURNING id, person_id, first_name, last_name, web_address, date_birth
+SET first_name  = $2,
+    last_name   = $3,
+    web_address = $4,
+    date_birth  = $5
+WHERE person_id = $1
+RETURNING person_id, first_name, last_name, web_address, date_birth
 `
 
 type UpdateAccountParams struct {
-	ID         int64
 	PersonID   string
 	FirstName  string
 	LastName   string
@@ -184,7 +173,6 @@ type UpdateAccountParams struct {
 
 func (q *Queries) UpdateAccount(ctx context.Context, arg UpdateAccountParams) (Account, error) {
 	row := q.db.QueryRowContext(ctx, updateAccount,
-		arg.ID,
 		arg.PersonID,
 		arg.FirstName,
 		arg.LastName,
@@ -193,7 +181,6 @@ func (q *Queries) UpdateAccount(ctx context.Context, arg UpdateAccountParams) (A
 	)
 	var i Account
 	err := row.Scan(
-		&i.ID,
 		&i.PersonID,
 		&i.FirstName,
 		&i.LastName,
