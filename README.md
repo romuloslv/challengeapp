@@ -79,15 +79,24 @@ take a moment to check this output. Once you are ready, you just need to run:
 
 `make terraform-apply-pkgs cluster_name=<YOUR-CLUSTER-NAME> project_name=<YOUR-PROJECT-NAME>`
 
+## Cluster/APP info
+
+```
+echo "DASH - $(kubectl get svc -n lab-dashboard | awk '{print $4}')"
+echo "APP - $(kubectl get svc -n lab-app | awk '{print $4}' | grep -v none)"
+```
+
 Once you `port-foward` your services, you can easily access it on your browser via localhost.
 
 ```
-$ kubectl get svc -n lab-dashboard | awk '{print $4}'
-$ kubectl get svc -n lab-app | awk '{print $4}' | head -n2
-$ kubectl port-forward $(kubectl get pods -l=app="kibana" -o name -n lab-logging) 5601 -n lab-logging
-$ kubectl port-forward $(kubectl get pods -l=app.kubernetes.io/instance="monitor" -o name -n lab-monitoring) 3000 -n lab-monitoring
-$ kubectl port-forward $(kubectl get pods -l=app="prometheus" -o name -n lab-monitoring | tail -n1) 9090 -n lab-monitoring
-$ kubectl port-forward $(kubectl get pods -l=app="elasticsearch-master" -o name -n lab-logging) 9200 -n lab-logging
+kubectl port-forward \
+    $(kubectl get pods -l=app="kibana" -o name -n lab-logging) 5601 -n lab-logging
+kubectl port-forward \
+    $(kubectl get pods -l=app.kubernetes.io/instance="monitor" -o name -n lab-monitoring) 3000 -n lab-monitoring
+kubectl port-forward \
+    $(kubectl get pods -l=app="prometheus" -o name -n lab-monitoring | tail -n1) 9090 -n lab-monitoring
+kubectl port-forward \
+    $(kubectl get pods -l=app="elasticsearch-master" -o name -n lab-logging) 9200 -n lab-logging
 ```
 
 ## Grafana info
