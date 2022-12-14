@@ -4,8 +4,8 @@ resource "helm_release" "kubernetes_dashboard" {
   repository       = "https://kubernetes.github.io/dashboard"
   namespace        = "lab-dashboard"
   create_namespace = true
-  version          = "5.11.0"
-  timeout          = 600
+  version          = "6.0.0"
+  timeout          = 300
 
   set {
     name  = "service.type"
@@ -44,8 +44,8 @@ resource "helm_release" "ingress-nginx" {
   repository       = "https://kubernetes.github.io/ingress-nginx"
   namespace        = "lab-app"
   create_namespace = true
-  version          = "4.3.0"
-  timeout          = 600
+  version          = "4.4.0"
+  timeout          = 300
 
   values = [file("${path.module}/templates/ingress-nginx-values.yaml")]
 
@@ -61,8 +61,8 @@ resource "helm_release" "prometheus" {
   repository       = "https://prometheus-community.github.io/helm-charts"
   namespace        = "lab-monitoring"
   create_namespace = true
-  version          = "15.15.0"
-  timeout          = 600
+  version          = "11.11.1"
+  timeout          = 300
 
   set {
     name  = "podSecurityPolicy.enabled"
@@ -100,8 +100,8 @@ resource "helm_release" "grafana" {
   repository       = "https://grafana.github.io/helm-charts"
   namespace        = kubernetes_namespace.grafana.metadata[0].name
   create_namespace = true
-  version          = "6.40.3"
-  timeout          = 600
+  version          = "6.44.11"
+  timeout          = 300
 
   values = [
     templatefile("${path.module}/templates/grafana-values.yaml", {
@@ -145,7 +145,7 @@ resource "helm_release" "elasticsearch" {
   namespace        = "lab-logging"
   create_namespace = true
   version          = "7.17.3"
-  timeout          = 600
+  timeout          = 300
 
   set {
     name  = "replicas"
@@ -165,7 +165,7 @@ resource "helm_release" "kibana" {
   namespace        = "lab-logging"
   create_namespace = true
   version          = "7.17.3"
-  timeout          = 600
+  timeout          = 300
 
   depends_on = [
     google_container_cluster.main,
@@ -182,8 +182,8 @@ resource "helm_release" "dapr" {
   repository       = "https://dapr.github.io/helm-charts/"
   namespace        = "lab-logging"
   create_namespace = true
-  version          = "1.8.4"
-  timeout          = 600
+  version          = "1.9.4"
+  timeout          = 300
 
   set {
     name  = "global.logAsJson"
@@ -203,8 +203,8 @@ resource "helm_release" "cert-manager" {
   namespace        = "lab-observability"
   create_namespace = true
   wait             = true
-  version          = "v1.9.1"
-  timeout          = 600
+  version          = "v1.10.1"
+  timeout          = 300
 
   set {
     name  = "installCRDs"

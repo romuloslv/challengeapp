@@ -18,10 +18,10 @@ You will need these tools installed on your PC: [docker](https://docs.docker.com
 | Port      | URI                   | Description            | Method |
 | --------- | --------------------- | ---------------------- | ------ |
 | :8080     | /                     | Returns Home           | GET    |
-| :8080     | /health               | Returns Healthy        | GET    |
+| :8080     | /health               | Returns Health         | GET    |
 | :8080     | /version              | Returns Version        | GET    |
 | :8080     | /accounts             | Returns List Accounts  | GET    |
-| :8080     | /accounts/{person_id} | Returns Id   Account   | GET    |
+| :8080     | /accounts/{person_id} | Returns Person Account | GET    |
 | :8080     | /accounts             | Insert account         | POST   |
 | :8080     | /accounts/{person_id} | Update/Replace account | PUT    |
 | :8080     | /accounts/{person_id} | Update/Modify account  | PATCH  |

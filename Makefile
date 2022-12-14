@@ -50,7 +50,7 @@ terraform-apply-cluster:
 .PHONY: terraform-apply-pkgs
 terraform-apply-pkgs:
 	@gcloud container clusters get-credentials $(cluster_name) \
-					--zone southamerica-east1-a \
+					--zone us-east4-a \
 					--project $(project_name)
 	@terraform -chdir=iac apply -var kubernetes_name=$(cluster_name) -auto-approve
 

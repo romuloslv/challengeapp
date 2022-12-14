@@ -1,4 +1,4 @@
-locals { region = "southamerica-east1-a" }
+locals { region = "us-east4-a" }
 
 variable "kubernetes_name" {
   type        = string

@@ -1,5 +1,5 @@
 data "kubectl_path_documents" "fluentd" {
-  pattern = "./fluentdapp/*.yaml"
+  pattern = "./fluentd/*.yaml"
   vars    = { docker_image = "fluent/fluentd-kubernetes-daemonset:v1.9.2-debian-elasticsearch7-1.0" }
 }
 
