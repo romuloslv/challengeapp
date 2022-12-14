@@ -7,8 +7,6 @@ definitions:
       first_name:
         maxLength: 30
         type: string
-      id:
-        type: integer
       last_name:
         maxLength: 20
         type: string
@@ -74,7 +72,7 @@ paths:
       - application/json
       description: List accounts
       parameters:
-      - description: Person ID
+      - description: Person PersonID
         in: query
         name: person_id
         type: integer
@@ -151,15 +149,15 @@ paths:
       summary: Create account
       tags:
       - accounts
-  /accounts/{id}:
+  /accounts/{person_id}:
     delete:
       consumes:
       - application/json
       description: Delete account
       parameters:
-      - description: Account ID
+      - description: Account PersonID
         in: path
-        name: id
+        name: person_id
         required: true
         type: integer
       produces:
@@ -187,9 +185,9 @@ paths:
       - application/json
       description: Get account
       parameters:
-      - description: Account ID
+      - description: Account PersonID
         in: path
-        name: id
+        name: person_id
         required: true
         type: integer
       produces:
@@ -219,9 +217,9 @@ paths:
       - application/json
       description: Partial update account
       parameters:
-      - description: Account ID
+      - description: Account PersonID
         in: path
-        name: id
+        name: person_id
         required: true
         type: integer
       - description: Account
@@ -257,9 +255,9 @@ paths:
       - application/json
       description: Full update account
       parameters:
-      - description: Account ID
+      - description: Account PersonID
         in: path
-        name: id
+        name: person_id
         required: true
         type: integer
       - description: Account

@@ -64,7 +64,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Person ID",
+                        "description": "Person PersonID",
                         "name": "person_id",
                         "in": "query"
                     },
@@ -174,7 +174,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/accounts/{id}": {
+        "/accounts/{person_id}": {
             "get": {
                 "description": "Get account",
                 "consumes": [
@@ -190,8 +190,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
+                        "description": "Account PersonID",
+                        "name": "person_id",
                         "in": "path",
                         "required": true
                     }
@@ -238,8 +238,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
+                        "description": "Account PersonID",
+                        "name": "person_id",
                         "in": "path",
                         "required": true
                     },
@@ -295,8 +295,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
+                        "description": "Account PersonID",
+                        "name": "person_id",
                         "in": "path",
                         "required": true
                     }
@@ -340,8 +340,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
+                        "description": "Account PersonID",
+                        "name": "person_id",
                         "in": "path",
                         "required": true
                     },
@@ -446,9 +446,6 @@ const docTemplate = `{
                 "first_name": {
                     "type": "string",
                     "maxLength": 30
-                },
-                "id": {
-                    "type": "integer"
                 },
                 "last_name": {
                     "type": "string",
