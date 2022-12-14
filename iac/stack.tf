@@ -61,7 +61,7 @@ resource "helm_release" "prometheus" {
   repository       = "https://prometheus-community.github.io/helm-charts"
   namespace        = "lab-monitoring"
   create_namespace = true
-  version          = "11.11.1"
+  version          = "19.0.1"
   timeout          = 300
 
   set {
