@@ -8,8 +8,7 @@ metadata:
 data:
   init.sql: |
     CREATE TABLE IF NOT EXISTS accounts (
-    id          BIGSERIAL PRIMARY KEY,
-    person_id   VARCHAR(11) UNIQUE NOT NULL,
+    person_id   VARCHAR(11) PRIMARY KEY UNIQUE NOT NULL,
     first_name  VARCHAR(30) NOT NULL,
     last_name   VARCHAR(20) NOT NULL,
     web_address VARCHAR(50),
@@ -28,8 +27,6 @@ data:
   APP_POSTGRES_USER: postgres
   APP_POSTGRES_HOST: postgres-db-lb
   APP_POSTGRES_DB: postgres
-  APP_PGDATA: /data/pgdata
-  APP_DATABASE_URL: postgres://postgres:postgres@postgres-db-lb:5432/postgres?sslmode=disable
 ---
 apiVersion: v1
 kind: Service
@@ -54,7 +51,7 @@ spec:
   selector:
     matchLabels:
       app: postgresql-db
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
